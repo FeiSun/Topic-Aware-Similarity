@@ -1,6 +1,5 @@
 *.mexw32
 *~
-/data
-/result
 !/reslut/*.gp
 !/result/*.py
+/result
