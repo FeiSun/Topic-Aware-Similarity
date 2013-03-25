@@ -1,5 +1,8 @@
 *.mexw32
 *~
-!/reslut/*.gp
-!/result/*.py
-/result
+/result/LapPLSA topic
+/result/PLSA purity
+/result/purity
+/result/TFIDF
+/result/*.txt
+/result/*.eps
