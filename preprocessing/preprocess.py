@@ -19,18 +19,6 @@ pattern = r'''(?x)    # set flag to allow verbose regexps
 stop_word = nltk.corpus.stopwords.words('english')
 
 
-def is_word(string):
-	i = 0
-	for s in string:
-		if s.isalpha():
-			return True
-		else:
-			i = i +1
-	if i == len(string):
-		return False
-
-
-
 def get_doc_index(file_name):
 	in_put = open(file_name, 'rU')
 	raw = in_put.readlines()
@@ -52,13 +40,13 @@ def get_docs(file_name):
 	docs = [nltk.regexp_tokenize(w, pattern) for w in raw]
 
 	#只保留英文单词,有-的会被删掉,删除停用词
-	for i in range(len(docs)):
-		docs[i] = [w for w in docs[i] if is_word(w) and not w in stop_word]
+	for i in xrange(len(docs)):
+		docs[i] = [w for w in docs[i] if w.isalpha() and w not in stop_word]
 
 	wnl = nltk.WordNetLemmatizer()
 
 	#词形还原
-	for i in range(len(docs)):
+	for i in xrange(len(docs)):
 		docs[i] = [wnl.lemmatize(t) for t in docs[i]]
 
 	in_put.close()
@@ -71,9 +59,7 @@ def output_vocab(in_file_name, out_file_name):
 	out_put = open(out_file_name, 'w')
 
 	#统计所有文档词汇
-	words = []
-	for w in docs:
-		words += w
+	words = set.union(*map(set, docs))
 
 	vocab = list(set(words))
 
@@ -87,9 +73,7 @@ def get_dwmatrix(abstraction_file_name, vocab_file_name):
 	docs = get_docs(abstraction_file_name)
 
 	#统计所有文档词汇
-	words = []
-	for w in docs:
-		words += w
+	words = set.union(*map(set, docs))
 
 	vocab = list(set(words))
 
